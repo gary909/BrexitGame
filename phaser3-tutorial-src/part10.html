@@ -44,12 +44,18 @@
         var platforms;
         var cursors;
         var score = 0;
+        // create anti score
+        var antiScore = 0;
+
         var gameOver = false;
         var scoreText;
+        // create antiScoreText
+        var antiScoreText;
+
         var newsHeadlineText;
 
         // Add our newspaper headline variable
-        var newsHeadlineArray = ["Choose if the headline ever existed...", "EU is forcing cows to wear nappies",
+        var newsHeadlineArray = ["Choose if these headlines were ever printed...", "EU is forcing cows to wear nappies",
             "EU wants to ban rocking horses",
             "Corgis to be banned by EU", "EU bans fresh pasta",
             "EU says Brit yoghurt has to be called Fermented Milk Pudding", "EU wants Kent to be part of France",
@@ -193,6 +199,14 @@
             });
 
 
+            //******************THE ANTI SCORE FOR RED CROSSES**********
+            antiScoreText = this.add.text(400, 16, 'Public Gullibility: 0', {
+                fontSize: '24px',
+                fill: '#000'
+            });
+            //**********************************************************
+
+
             newsHeadlineText = this.add.text(16, 560, newsHeadlineArray[0], {
                 fontSize: '24px',
                 fill: '#fff'
@@ -208,6 +222,10 @@
 
             //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
             this.physics.add.overlap(player, stars, collectStar, null, this);
+
+
+            //  Checks to see if the player overlaps with any of the crosses, if he does call the collectCross function
+            this.physics.add.overlap(player, crosses, collectCross, null, this);
 
             // this.physics.add.collider(player, bombs, hitBomb, null, this);  //Bombs muted for now
         }
@@ -243,6 +261,12 @@
             score += 10;
             scoreText.setText('Public Anger Score: ' + score);
 
+            //**************ADD AND UPDATE THE ANTI SCORE*************
+            //  Add and update the score
+            // antiScore += 10;
+            // antiScoreText.setText('Public Gullibility: ' + score);
+
+
             //********************************************************
             //  Add and update the newspaper Headline
             // score / 10 to increment by 1 in our newspaper headline array
@@ -255,6 +279,47 @@
             if (stars.countActive(true) === 0) {
                 //  A new batch of stars to collect
                 stars.children.iterate(function (child) {
+
+                    child.enableBody(true, child.x, 0, true, true);
+
+                });
+                //Bombs muted for now
+                //     var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+
+                //     var bomb = bombs.create(x, 16, 'bomb');
+                //     bomb.setBounce(1);
+                //     bomb.setCollideWorldBounds(true);
+                //     bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+                //     bomb.allowGravity = false;
+
+            }
+        }
+
+
+
+        //*******************COLLECT CROSSES**************************
+        function collectCross(player, cross) {
+            cross.disableBody(true, true);
+
+
+            //**************ADD AND UPDATE THE ANTI SCORE*************
+            //  Add and update the score
+            antiScore += 10;
+            antiScoreText.setText('Public Gullibility: ' + antiScore);
+
+
+            //********************************************************
+            //  Add and update the newspaper Headline
+            // score / 10 to increment by 1 in our newspaper headline array
+            newsHeadlineText.setText(newsHeadlineArray[score / 10])
+
+
+            //********************************************************
+
+
+            if (crosses.countActive(true) === 0) {
+                //  A new batch of crosses to collect
+                crosses.children.iterate(function (child) {
 
                     child.enableBody(true, child.x, 0, true, true);
 
