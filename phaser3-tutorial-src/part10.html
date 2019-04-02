@@ -37,6 +37,9 @@
 
         var player;
         var stars;
+        // create red crosses
+        var crosses;
+
         var bombs;
         var platforms;
         var cursors;
@@ -46,7 +49,8 @@
         var newsHeadlineText;
 
         // Add our newspaper headline variable
-        var newsHeadlineArray = ["EU is forcing cows to wear nappies", "EU wants to ban rocking horses",
+        var newsHeadlineArray = ["Choose if the headline ever existed...", "EU is forcing cows to wear nappies",
+            "EU wants to ban rocking horses",
             "Corgis to be banned by EU", "EU bans fresh pasta",
             "EU says Brit yoghurt has to be called Fermented Milk Pudding", "EU wants Kent to be part of France",
             "EU wants feeding swans to require a licence", "Feeding swans and homeless people to require license",
@@ -70,6 +74,8 @@
             this.load.image('londonSky', 'assets/londonSky.png');
             this.load.image('ground', 'assets/londonPlatform.png');
             this.load.image('star', 'assets/starGreen.png');
+            //*****RED CROSS IMAGE******
+            this.load.image('cross', 'assets/starRed.png');
             this.load.image('bomb', 'assets/bomb.png');
             this.load.spritesheet('mayDude', 'assets/mayDude.png', {
                 frameWidth: 32,
@@ -136,9 +142,9 @@
             //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
             stars = this.physics.add.group({
                 key: 'star',
-                repeat: 10,
+                // repeat: 10, // SETS THE AMOUNT OF STARS
                 setXY: {
-                    x: 12,
+                    x: 75,
                     y: 0,
                     stepX: 70
                 }
@@ -150,6 +156,33 @@
                 child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
 
             });
+
+            //****************************ADD RED CROSSES HERE ***********
+            //  Some rede crosses to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
+            crosses = this.physics.add.group({
+                key: 'cross',
+                // repeat: 10, // SETS THE AMOUNT OF STARS
+                setXY: {
+                    x: 725,
+                    y: 0,
+                    stepX: 70
+                }
+            });
+            //************************************************************
+
+
+
+
+            //********************RED CROSS BOUNCE**********************
+
+            crosses.children.iterate(function (child) {
+
+                //  Give each star a slightly different bounce
+                child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+
+            });
+
+            //**********************************************************
 
             //bombs = this.physics.add.group(); //Bombs muted for now
 
@@ -169,6 +202,8 @@
             //  Collide the player and the stars with the platforms
             this.physics.add.collider(player, platforms);
             this.physics.add.collider(stars, platforms);
+            // add crosses collision detection
+            this.physics.add.collider(crosses, platforms);
             // this.physics.add.collider(bombs, platforms); //Bombs muted for now
 
             //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
