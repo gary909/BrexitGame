@@ -43,9 +43,10 @@
         var score = 0;
         var gameOver = false;
         var scoreText;
+        var newsHeadlineText;
 
         // Add our newspaper headline variable
-        var newsHeadlineText = ["EU is forcing cows to wear nappies", "EU wants to ban rocking horses",
+        var newsHeadlineArray = ["EU is forcing cows to wear nappies", "EU wants to ban rocking horses",
             "Corgis to be banned by EU", "EU bans fresh pasta",
             "EU says Brit yoghurt has to be called Fermented Milk Pudding", "EU wants Kent to be part of France",
             "EU wants feeding swans to require a licence", "Feeding swans and homeless people to require license",
@@ -158,13 +159,12 @@
                 fill: '#000'
             });
 
-            // **********************************************************
-            //  Newspaper headlineText
-            // newsHeadlineText = this.add.text(16, 560, newsHeadlineText[0], {
-            //     fontSize: '24px',
-            //     fill: '#fff'
-            // });
-            //***********************************************************
+
+            newsHeadlineText = this.add.text(16, 560, newsHeadlineArray[0], {
+                fontSize: '24px',
+                fill: '#fff'
+            });
+
 
             //  Collide the player and the stars with the platforms
             this.physics.add.collider(player, platforms);
@@ -210,30 +210,8 @@
 
             //********************************************************
             //  Add and update the newspaper Headline
-            // score += 10;
-            // newsHeadlineText.setText(newsHeadlineText);
-
-            for (var i = 0; i < score / 10; i++) {
-                console.log(i)
-                newsHeadlineText = this.add.text(16, 560, newsHeadlineText[i], {
-                    fontSize: '24px',
-                    fill: '#fff'
-                })
-            }
-
-
-
-
-
-
-            // function newsIncrement(score) {
-            //     for (var i = 0; i < score / 10; i++) {
-            //         var incrementNews = newsHeadlineText[i]
-            //         newsHeadlineText.setText(incrementNews);
-            //     }
-            // }
-
-
+            // score / 10 to increment by 1 in our newspaper headline array
+            newsHeadlineText.setText(newsHeadlineArray[score / 10])
 
 
             //********************************************************
