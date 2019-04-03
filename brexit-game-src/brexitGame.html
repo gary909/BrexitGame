@@ -34,7 +34,7 @@
             }
         };
 
-        //Phaser.Math.RND.between(0, 800),
+
         var player;
         var stars;
 
@@ -53,7 +53,7 @@
         var antiScoreText;
 
         var newsHeadlineText;
-
+        var flagText
         var winnerText;
         var loserText;
 
@@ -74,8 +74,10 @@
             "Cod no longer to be called cod thanks to EU",
             "EU says strawberries must be oval",
             "Nickel in euro coins will make you sick",
+            "EU banning tourist photos of the London Eye",
+            "Cucumbers must be straight",
             "EU says dead pets must be pressure-cooked before burying",
-            "Farmers forced to issue pigs with toysFarmers forced to issue pigs with toys",
+            "Farmers forced to issue pigs with toys",
             "Tractors banned from wet fields by EU ‘puddle police’",
             "Hunters to be required to carry a fridge and be accompanied by a vet",
             "Circus performers must wear hard hats",
@@ -230,7 +232,7 @@
 
             //**********************************************************
 
-            // bombs = this.physics.add.group(); //Bombs muted for now
+            bombs = this.physics.add.group(); //Bombs muted for now
 
             //  The score
             scoreText = this.add.text(16, 16, "Public Anger Score: 0%", {
@@ -257,7 +259,7 @@
             this.physics.add.collider(stars, platforms);
             // add crosses collision detection
             this.physics.add.collider(crosses, platforms);
-            // this.physics.add.collider(bombs, platforms); //Bombs muted for now
+            this.physics.add.collider(bombs, platforms); //Bombs muted for now
 
             //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
             this.physics.add.overlap(player, stars, collectStar, null, this);
@@ -265,7 +267,7 @@
             //  Checks to see if the player overlaps with any of the crosses, if he does call the collectCross function
             this.physics.add.overlap(player, crosses, collectCross, null, this);
 
-            // this.physics.add.collider(player, bombs, hitBomb, null, this); //Bombs muted for now
+            this.physics.add.collider(player, bombs, hitBomb, null, this); //Bombs muted for now
         }
 
         function update() {
@@ -330,13 +332,13 @@
                     //***********************DELETE ALL OF THIS ABOVE *********************
                 });
                 //Bombs muted for now
-                // var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+                var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
-                // var bomb = bombs.create(x, 16, 'bomb');
-                // bomb.setBounce(1);
-                // bomb.setCollideWorldBounds(true);
-                // bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-                // bomb.allowGravity = false;
+                var bomb = bombs.create(x, 16, 'bomb');
+                bomb.setBounce(1);
+                bomb.setCollideWorldBounds(true);
+                bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+                bomb.allowGravity = false;
             }
 
             // collect 100 points and the game ends
@@ -403,16 +405,20 @@
             }
         }
 
-        //Bombs muted for now
-        // function hitBomb(player, bomb) {
-        //     this.physics.pause();
+        // Bombs muted for now
+        function hitBomb(player, bomb) {
+            this.physics.pause();
 
-        //     player.setTint(0xff0000);
+            player.setTint(0xff0000);
 
-        //     player.anims.play('turn');
+            player.anims.play('turn');
 
-        //     gameOver = true;
-        // }
+            gameOver = true;
+            flagText = this.add.text(300, 300, "Avoid Nationalism.", {
+                fontSize: "24px",
+                fill: "#fff"
+            });
+        }
     </script>
 </body>
 
