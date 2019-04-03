@@ -34,9 +34,10 @@
             }
         };
 
+        //Phaser.Math.RND.between(0, 800),
         var player;
         var stars;
-        // create red crosses
+
         var crosses;
 
         var bombs;
@@ -194,7 +195,12 @@
 
             stars.children.iterate(function (child) {
                 //  Give each star a slightly different bounce
-                child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+                // child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+                child.setBounce(1);
+                child.setCollideWorldBounds(true);
+                child.setVelocity(Phaser.Math.Between(-200, 200), 20);
+                child.allowGravity = false;
+
             });
 
             //****************************ADD RED CROSSES HERE ***********
@@ -205,7 +211,7 @@
                 setXY: {
                     x: 725,
                     y: 0,
-                    stepX: 70
+                    // stepX: 70
                 }
             });
             //************************************************************
@@ -214,7 +220,12 @@
 
             crosses.children.iterate(function (child) {
                 //  Give each star a slightly different bounce
-                child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+                // child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+                child.setBounce(1);
+                child.setCollideWorldBounds(true);
+                child.setVelocity(Phaser.Math.Between(-200, 200), 20);
+                child.allowGravity = false;
+
             });
 
             //**********************************************************
@@ -303,7 +314,20 @@
             if (stars.countActive(true) === 0) {
                 //  A new batch of stars to collect
                 stars.children.iterate(function (child) {
+                    var x = (child.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
                     child.enableBody(true, child.x, 0, true, true);
+                    child.setVelocity(Phaser.Math.Between(-200, 200), 20);
+
+
+                    //***********************DELETE ALL OF THIS BELOW *********************
+                    // var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+
+                    // var starr = stars.create(x, 16, 'star');
+                    // stars.setBounce(1);
+                    // stars.setCollideWorldBounds(true);
+                    // stars.setVelocity(Phaser.Math.Between(-200, 200), 20);
+                    // stars.allowGravity = false;
+                    //***********************DELETE ALL OF THIS ABOVE *********************
                 });
                 //Bombs muted for now
                 // var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
@@ -352,6 +376,7 @@
                 //  A new batch of crosses to collect
                 crosses.children.iterate(function (child) {
                     child.enableBody(true, child.x, 0, true, true);
+                    child.setVelocity(Phaser.Math.Between(-200, 200), 20);
                 });
                 //Bombs muted for now
                 // var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
