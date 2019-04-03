@@ -222,13 +222,13 @@
             // bombs = this.physics.add.group(); //Bombs muted for now
 
             //  The score
-            scoreText = this.add.text(16, 16, "Public Anger Score: 0", {
+            scoreText = this.add.text(16, 16, "Public Anger Score: 0%", {
                 fontSize: "24px",
                 fill: "#000"
             });
 
             //******************THE ANTI SCORE FOR RED CROSSES**********
-            antiScoreText = this.add.text(400, 16, "Public Gullibility: 0", {
+            antiScoreText = this.add.text(400, 16, "Public Gullibility: 0%", {
                 fontSize: "24px",
                 fill: "#000"
             });
@@ -286,7 +286,7 @@
 
             //  Add and update the score
             score += 10;
-            scoreText.setText("Public Anger Score: " + score);
+            scoreText.setText("Public Anger Score: " + score + "%");
 
             //**************ADD AND UPDATE THE ANTI SCORE*************
             //  Add and update the score
@@ -323,7 +323,7 @@
 
                 player.anims.play('turn');
                 gameOver = true;
-                winnerText = this.add.text(200, 300, "True Blue, You Saved Brexit!", {
+                winnerText = this.add.text(200, 300, "True Blue! You brought about Brexit!", {
                     fontSize: "24px",
                     fill: "#fff"
                 });
@@ -339,7 +339,7 @@
             //**************ADD AND UPDATE THE ANTI SCORE*************
             //  Add and update the score
             antiScore += 10;
-            antiScoreText.setText("Public Gullibility: " + antiScore);
+            antiScoreText.setText("Public Gullibility: " + antiScore + "%");
 
             //********************************************************
             //  Add and update the newspaper Headline
