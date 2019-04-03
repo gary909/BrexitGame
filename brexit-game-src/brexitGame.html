@@ -53,6 +53,9 @@
 
         var newsHeadlineText;
 
+        var winnerText;
+        var loserText;
+
         // Add our newspaper headline variable
         var newsHeadlineArray = [
             "Choose if these headlines were ever printed...",
@@ -236,6 +239,8 @@
                 fill: "#fff"
             });
 
+
+
             //  Collide the player and the stars with the platforms
             this.physics.add.collider(player, platforms);
             this.physics.add.collider(stars, platforms);
@@ -318,6 +323,10 @@
 
                 player.anims.play('turn');
                 gameOver = true;
+                winnerText = this.add.text(200, 300, "True Blue, You Saved Brexit!", {
+                    fontSize: "24px",
+                    fill: "#fff"
+                });
             }
         }
 
@@ -362,6 +371,10 @@
 
                 player.anims.play('turn');
                 gameOver = true;
+                loserText = this.add.text(200, 300, "It is the will of the people! \n          GAME OVER", {
+                    fontSize: "24px",
+                    fill: "#fff"
+                });
             }
         }
 
