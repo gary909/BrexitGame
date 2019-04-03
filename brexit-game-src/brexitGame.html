@@ -155,15 +155,6 @@
                 repeat: -1
             });
 
-            // this.anims.create({
-            //     key: "turn",
-            //     frames: [{
-            //         key: "mayBot",
-            //         frame: 3
-            //     }],
-            //     frameRate: 20
-            // });
-
             this.anims.create({
                 key: "turn",
                 frames: this.anims.generateFrameNumbers("mayBot", {
@@ -225,7 +216,7 @@
 
             //**********************************************************
 
-            //bombs = this.physics.add.group(); //Bombs muted for now
+            // bombs = this.physics.add.group(); //Bombs muted for now
 
             //  The score
             scoreText = this.add.text(16, 16, "Public Anger Score: 0", {
@@ -258,7 +249,7 @@
             //  Checks to see if the player overlaps with any of the crosses, if he does call the collectCross function
             this.physics.add.overlap(player, crosses, collectCross, null, this);
 
-            // this.physics.add.collider(player, bombs, hitBomb, null, this);  //Bombs muted for now
+            // this.physics.add.collider(player, bombs, hitBomb, null, this); //Bombs muted for now
         }
 
         function update() {
@@ -310,13 +301,23 @@
                     child.enableBody(true, child.x, 0, true, true);
                 });
                 //Bombs muted for now
-                //     var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+                // var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
-                //     var bomb = bombs.create(x, 16, 'bomb');
-                //     bomb.setBounce(1);
-                //     bomb.setCollideWorldBounds(true);
-                //     bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-                //     bomb.allowGravity = false;
+                // var bomb = bombs.create(x, 16, 'bomb');
+                // bomb.setBounce(1);
+                // bomb.setCollideWorldBounds(true);
+                // bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+                // bomb.allowGravity = false;
+            }
+
+            // collect 100 points and the game ends
+            if (score >= 100) {
+                this.physics.pause();
+
+                player.setTint(0x0000ff); // Turn player blue on game end
+
+                player.anims.play('turn');
+                gameOver = true;
             }
         }
 
@@ -344,13 +345,23 @@
                     child.enableBody(true, child.x, 0, true, true);
                 });
                 //Bombs muted for now
-                //     var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+                // var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
-                //     var bomb = bombs.create(x, 16, 'bomb');
-                //     bomb.setBounce(1);
-                //     bomb.setCollideWorldBounds(true);
-                //     bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-                //     bomb.allowGravity = false;
+                // var bomb = bombs.create(x, 16, 'bomb');
+                // bomb.setBounce(1);
+                // bomb.setCollideWorldBounds(true);
+                // bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+                // bomb.allowGravity = false;
+            }
+
+            // collect 100 points and the game ends
+            if (antiScore >= 100) {
+                this.physics.pause();
+
+                player.setTint(0xff0000); // Turn player red on game end
+
+                player.anims.play('turn');
+                gameOver = true;
             }
         }
 
