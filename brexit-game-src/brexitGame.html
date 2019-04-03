@@ -269,7 +269,7 @@
             //********************************************************
             //  Add and update the newspaper Headline
             // score / 10 to increment by 1 in our newspaper headline array
-            newsHeadlineText.setText(newsHeadlineArray[score / 10]);
+            newsHeadlineText.setText(newsHeadlineArray[score / 10 + antiScore / 10]);
 
             //********************************************************
 
@@ -289,6 +289,8 @@
             }
         }
 
+
+
         //*******************COLLECT CROSSES**************************
         function collectCross(player, cross) {
             cross.disableBody(true, true);
@@ -301,7 +303,7 @@
             //********************************************************
             //  Add and update the newspaper Headline
             // score / 10 to increment by 1 in our newspaper headline array
-            newsHeadlineText.setText(newsHeadlineArray[antiScore / 10]);
+            newsHeadlineText.setText(newsHeadlineArray[antiScore / 10 + score / 10]);
 
             //********************************************************
 
