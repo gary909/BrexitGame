@@ -40,29 +40,20 @@
 
         var player;
         var stars;
-
         var crosses;
-
         var bombs;
-
         var beers;
         var platforms;
         var cursors;
         var score = 0;
-        // create anti score
         var antiScore = 0;
-
         var gameOver = false;
         var scoreText;
-        // create antiScoreText
         var antiScoreText;
-
         var newsHeadlineText;
         var flagText;
         var winnerText;
         var loserText;
-
-        // Add our newspaper headline variable
         var newsHeadlineArray = [
             "Choose if these headlines were ever printed...",
             "EU is forcing cows to wear nappies",
@@ -135,7 +126,6 @@
             //  The platforms group contains the ground and the 2 ledges we can jump on
             platforms = this.physics.add.staticGroup();
 
-            //  Here we create the ground.
             //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
             platforms
                 .create(400, 768, "ground")
@@ -150,7 +140,7 @@
             // The player and its settings
             player = this.physics.add.sprite(100, 450, "mayBot");
 
-            //  Player physics properties. Give the little guy a slight bounce.
+            //  Player physics properties. Give the mayBot a slight bounce.
             player.setBounce(0.2);
             player.setCollideWorldBounds(true);
 
@@ -188,41 +178,32 @@
             //  Input Events
             cursors = this.input.keyboard.createCursorKeys();
 
-            //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
+            //  Some stars to collect
             stars = this.physics.add.group({
                 key: "star",
-                // repeat: 10, // SETS THE AMOUNT OF STARS
                 setXY: {
                     x: 75,
                     y: 0,
-                    stepX: 70
                 }
             });
 
             stars.children.iterate(function (child) {
-                //  Give each star a slightly different bounce
-                // child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
                 child.setBounce(1);
                 child.setCollideWorldBounds(true);
                 child.setVelocity(Phaser.Math.Between(-200, 200), 20);
                 child.allowGravity = false;
             });
 
-            //****************************ADD RED CROSSES HERE ***********
-            //  Some red crosses to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
+            // Adds crosses here
             crosses = this.physics.add.group({
                 key: "cross",
-                // repeat: 10, // SETS THE AMOUNT OF STARS
                 setXY: {
                     x: 725,
                     y: 0
-                    // stepX: 70
                 }
             });
-            //************************************************************
 
-            //********************RED CROSS BOUNCE**********************
-
+            // Adds crosses bounce
             crosses.children.iterate(function (child) {
                 //  Give each star a slightly different bounce
                 // child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
@@ -232,26 +213,24 @@
                 child.allowGravity = false;
             });
 
-            //**********************************************************
-
-            bombs = this.physics.add.group(); //Bombs muted for now
+            bombs = this.physics.add.group();
             beers = this.physics.add.group();
 
-            //  The score
-            scoreText = this.add.text(16, 16, "Public Anger: 0%", {
+            // Adds text & position for Score
+            scoreText = this.add.text(16, 760, "Public Anger: 0%", {
                 fontSize: "24px",
-                fill: "#000"
+                fill: "#fff"
             });
 
-            //******************THE ANTI SCORE FOR RED CROSSES**********
-            antiScoreText = this.add.text(400, 16, "Public Gullibility: 0%", {
+            // Adds text & position for antiScore
+            antiScoreText = this.add.text(400, 760, "Public Gullibility: 0%", {
                 fontSize: "24px",
-                fill: "#000"
+                fill: "#fff"
             });
-            //**********************************************************
 
-            newsHeadlineText = this.add.text(16, 560, newsHeadlineArray[0], {
-                fontSize: "24px",
+            // Adds text & position for the newspaper headlines
+            newsHeadlineText = this.add.text(16, 16, newsHeadlineArray[0], {
+                fontSize: "28px",
                 fill: "#fff"
             });
 
@@ -260,19 +239,13 @@
             this.physics.add.collider(stars, platforms);
             // add crosses collision detection
             this.physics.add.collider(crosses, platforms);
-            this.physics.add.collider(bombs, platforms); //Bombs muted for now
+            this.physics.add.collider(bombs, platforms);
             this.physics.add.collider(beers, platforms);
-
             //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
             this.physics.add.overlap(player, stars, collectStar, null, this);
-
             //  Checks to see if the player overlaps with any of the crosses, if he does call the collectCross function
             this.physics.add.overlap(player, crosses, collectCross, null, this);
-
-
-
-            this.physics.add.collider(player, bombs, hitBomb, null, this); //Bombs muted for now
-
+            this.physics.add.collider(player, bombs, hitBomb, null, this);
             this.physics.add.overlap(player, beers, hitBeer, null, this);
         }
 
@@ -300,6 +273,7 @@
             }
         }
 
+        //********************COLLECT STARS**********************
         function collectStar(player, star) {
             star.disableBody(true, true);
 
@@ -307,17 +281,8 @@
             score += 10;
             scoreText.setText("Public Anger: " + score + "%");
 
-            //**************ADD AND UPDATE THE ANTI SCORE*************
-            //  Add and update the score
-            // antiScore += 10;
-            // antiScoreText.setText('Public Gullibility: ' + score);
-
-            //********************************************************
-            //  Add and update the newspaper Headline
-            // score / 10 to increment by 1 in our newspaper headline array
+            //  Add and update the newspaper Headline. score / 10 to increment by 1 in our newspaper headline array
             newsHeadlineText.setText(newsHeadlineArray[score / 10 + antiScore / 10]);
-
-            //********************************************************
 
             if (stars.countActive(true) === 0) {
                 //  A new batch of stars to collect
@@ -327,19 +292,9 @@
                     child.enableBody(true, child.x, 0, true, true);
                     child.setVelocity(Phaser.Math.Between(-200, 200), 20);
 
-                    //***********************DELETE ALL OF THIS BELOW *********************
-                    // var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-
-                    // var starr = stars.create(x, 16, 'star');
-                    // stars.setBounce(1);
-                    // stars.setCollideWorldBounds(true);
-                    // stars.setVelocity(Phaser.Math.Between(-200, 200), 20);
-                    // stars.allowGravity = false;
-                    //***********************DELETE ALL OF THIS ABOVE *********************
                 });
-                //Bombs muted for now
+                //Bombs created upon star collect
                 var x = player.x < 400 ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-
                 var bomb = bombs.create(x, 16, "bomb");
                 bomb.setBounce(1);
                 bomb.setCollideWorldBounds(true);
@@ -348,11 +303,9 @@
             }
 
             // collect 100 points and the game ends
-            if (score >= 100) {
+            if (score === 100) {
                 this.physics.pause();
-
                 player.setTint(0x0000ff); // Turn player blue on game end
-
                 player.anims.play("turn");
                 gameOver = true;
                 winnerText = this.add.text(200, 300, "True Blue! You brought about Brexit!", {
@@ -366,17 +319,12 @@
         function collectCross(player, cross) {
             cross.disableBody(true, true);
 
-            //**************ADD AND UPDATE THE ANTI SCORE*************
-            //  Add and update the score
+            //  Add and update the antiScore
             antiScore += 10;
             antiScoreText.setText("Public Gullibility: " + antiScore + "%");
 
-            //********************************************************
-            //  Add and update the newspaper Headline
-            // score / 10 to increment by 1 in our newspaper headline array
+            //  Add and update the newspaper Headline. score / 10 to increment by 1 in our newspaper headline array
             newsHeadlineText.setText(newsHeadlineArray[antiScore / 10 + score / 10]);
-
-            //********************************************************
 
             if (crosses.countActive(true) === 0) {
                 //  A new batch of crosses to collect
@@ -384,9 +332,8 @@
                     child.enableBody(true, child.x, 0, true, true);
                     child.setVelocity(Phaser.Math.Between(-200, 200), 20);
                 });
-                //Bombs muted for now
+                //Creates beers objects away from the player at random velocity
                 var x = player.x < 400 ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-
                 var beer = beers.create(x, 16, "beer");
                 beer.setBounce(1);
                 beer.setCollideWorldBounds(true);
@@ -395,11 +342,9 @@
             }
 
             // collect 100 points and the game ends
-            if (antiScore >= 100) {
+            if (antiScore === 100) {
                 this.physics.pause();
-
                 player.setTint(0xff0000); // Turn player red on game end
-
                 player.anims.play("turn");
                 gameOver = true;
                 loserText = this.add.text(
@@ -413,14 +358,11 @@
             }
         }
 
-        // Bombs muted for now
+        // Flags to kill you
         function hitBomb(player, bomb) {
             this.physics.pause();
-
             player.setTint(0xff0000);
-
             player.anims.play("turn");
-
             gameOver = true;
             flagText = this.add.text(300, 300, "Avoid Nationalism.", {
                 fontSize: "24px",
@@ -428,11 +370,9 @@
             });
         }
 
-        // Bombs muted for now
+        // Beer to decrease your score
         function hitBeer(player, beer) {
             beer.disableBody(true, true);
-            antiScore += 10;
-            antiScoreText.setText("Public Gullibility: " + antiScore + "%");
             score -= 10;
             scoreText.setText("Public Anger: " + score + "%");
         }
