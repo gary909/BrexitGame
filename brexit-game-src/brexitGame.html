@@ -123,7 +123,8 @@
         var game = new Phaser.Game(config);
 
         function preload() {
-            this.load.audio('theme', "assets/brexitGameMainMusic.ogg");
+            this.load.audio('theme', "assets/brexitGamePlaceholderMusicTrim.ogg");
+            this.load.audio('brexit', "assets/jarvisRunningTheWorld.ogg");
             this.load.image("londonSky", "assets/londonSky800x800.png");
             this.load.image("ground", "assets/londonPlatform.png");
             this.load.image("star", "assets/starGreen.png");
@@ -139,9 +140,16 @@
 
         function create() {
 
+
+            // this.sound.audioPlayDelay = 0.1;
+            // this.sound.loopEndOffset = 0.05;
             var music = this.sound.add('theme');
 
             music.play();
+
+            //         music.play('loop', {
+            //     delay: 0
+            // });
 
             // A simple background
             // for our game
@@ -390,6 +398,10 @@
             this.physics.pause();
             player.setTint(0xff0000);
             player.anims.play("turn");
+
+            var music = this.sound.add('brexit');
+
+            music.play();
             gameOver = true;
             flagText = this.add.text(270, 300, "Avoid Nationalism.", {
                 fontSize: "24px",
