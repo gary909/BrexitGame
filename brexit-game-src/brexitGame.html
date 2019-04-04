@@ -72,12 +72,11 @@
         var winnerText;
         var loserText;
         var newsHeadlineArray = [
-            "Choose if these headlines were ever printed...",
+            "EU says Brit yoghurt has to be called Fermented Milk Pudding",
             "EU is forcing cows to wear nappies",
             "EU wants to ban rocking horses",
             "Corgis to be banned by EU",
             "EU bans fresh pasta",
-            "EU says Brit yoghurt has to be called Fermented Milk Pudding",
             "EU wants Kent to be part of France",
             "EU wants feeding swans to require a licence",
             "Feeding swans and homeless people to require license",
@@ -92,7 +91,7 @@
             "EU says dead pets must be pressure-cooked before burying",
             "Farmers forced to issue pigs with toys",
             "Tractors banned from wet fields by EU ‘puddle police’",
-            "Hunters to be required to carry a fridge and be accompanied by a vet",
+            "Hunters must carry a fridge and be accompanied by a vet",
             "Circus performers must wear hard hats",
             "EU responsible for your hay fever",
             "Leek sizes to be standardized by EU",
@@ -129,6 +128,7 @@
             this.load.image("ground", "assets/londonPlatform.png");
             this.load.image("star", "assets/starGreen.png");
             this.load.image("cross", "assets/starRed.png");
+            this.load.image("bus", "assets/singleBus.png");
             this.load.image("bomb", "assets/bomb.png");
             this.load.image("beer", "assets/beer.png");
             this.load.spritesheet("mayBot", "assets/mayBot.png", {
@@ -143,8 +143,11 @@
 
             music.play();
 
-            //  A simple background for our game
+            // A simple background
+            // for our game
+
             this.add.image(400, 400, "londonSky");
+            this.add.image(710, 690, "bus");
 
             //  The platforms group contains the ground and the 2 ledges we can jump on
             platforms = this.physics.add.staticGroup();
@@ -248,13 +251,14 @@
             // Adds text & position for antiScore
             antiScoreText = this.add.text(400, 760, "Public Gullibility: 0%", {
                 fontSize: "24px",
-                fill: "#fff"
+                fill: "#fff",
             });
 
             // Adds text & position for the newspaper headlines
             newsHeadlineText = this.add.text(16, 16, newsHeadlineArray[0], {
-                fontSize: "28px",
-                fill: "#fff"
+                fontFamily: "Times New Roman",
+                fontSize: "bold 28px",
+                fill: "#000"
             });
 
             //  Collide the player and the stars with the platforms
@@ -387,7 +391,7 @@
             player.setTint(0xff0000);
             player.anims.play("turn");
             gameOver = true;
-            flagText = this.add.text(300, 300, "Avoid Nationalism.", {
+            flagText = this.add.text(270, 300, "Avoid Nationalism.", {
                 fontSize: "24px",
                 fill: "#fff"
             });
