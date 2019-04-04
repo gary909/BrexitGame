@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <title>Brexit Game</title>
     <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
     <style type="text/css">
         body {
             margin: 0;
@@ -15,8 +16,21 @@
 <body>
 
     <div>
-        <h1>HEYYY</h1>
+        <img class="paperLogo" src="assets/newspaperLogoTinted.png" alt="News Paper Generic Logo">
     </div>
+
+    <div>
+        <h1 class="headlineMain">SOME ENGLISH RAG</h1>
+    </div>
+
+    <hr class="lines">
+
+    <div>
+        <p class="chooseText">Choose if these anti-EU headlines were ever printed in the British media</p>
+    </div>
+
+    <hr class="lines">
+
     <script type="text/javascript">
         var config = {
             type: Phaser.AUTO,
@@ -138,7 +152,7 @@
             platforms.create(750, 420, "ground");
 
             // The player and its settings
-            player = this.physics.add.sprite(100, 450, "mayBot");
+            player = this.physics.add.sprite(100, 550, "mayBot");
 
             //  Player physics properties. Give the mayBot a slight bounce.
             player.setBounce(0.2);
@@ -308,7 +322,7 @@
                 player.setTint(0x0000ff); // Turn player blue on game end
                 player.anims.play("turn");
                 gameOver = true;
-                winnerText = this.add.text(200, 300, "True Blue! You brought about Brexit!", {
+                winnerText = this.add.text(150, 400, "True Blue! You brought about Brexit!", {
                     fontSize: "24px",
                     fill: "#fff"
                 });
@@ -377,6 +391,7 @@
             scoreText.setText("Public Anger: " + score + "%");
         }
     </script>
+
 </body>
 
 </html>
