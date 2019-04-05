@@ -1,422 +1,429 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Brexit Game</title>
+        <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <style type="text/css">
+            body {
+                margin: 0;
+            }
+        </style>
+    </head>
 
-<head>
-    <meta charset="UTF-8" />
-    <title>Brexit Game</title>
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <style type="text/css">
-        body {
-            margin: 0;
-        }
-    </style>
-</head>
+    <body>
+        <div>
+            <img class="paperLogo" src="assets/newspaperLogoTinted.png" alt="News Paper Generic Logo" />
+        </div>
 
-<body>
+        <div>
+            <h1 class="headlineMain">SOME ENGLISH RAG</h1>
+        </div>
 
-    <div>
-        <img class="paperLogo" src="assets/newspaperLogoTinted.png" alt="News Paper Generic Logo">
-    </div>
+        <hr class="lines" />
 
-    <div>
-        <h1 class="headlineMain">SOME ENGLISH RAG</h1>
-    </div>
+        <div>
+            <p class="chooseText">
+                Choose if these anti-EU headlines were ever printed in the British media
+            </p>
+        </div>
 
-    <hr class="lines">
+        <hr class="lines" />
 
-    <div>
-        <p class="chooseText">Choose if these anti-EU headlines were ever printed in the British media</p>
-    </div>
-
-    <hr class="lines">
-
-    <script type="text/javascript">
-        var config = {
-            type: Phaser.AUTO,
-            width: 800,
-            height: 800,
-            physics: {
-                default: "arcade",
-                arcade: {
-                    gravity: {
-                        y: 300
-                    },
-                    debug: false
+        <script type="text/javascript">
+            var config = {
+                type: Phaser.AUTO,
+                width: 800,
+                height: 800,
+                physics: {
+                    default: "arcade",
+                    arcade: {
+                        gravity: {
+                            y: 300
+                        },
+                        debug: false
+                    }
+                },
+                scene: {
+                    preload: preload,
+                    create: create,
+                    update: update
+                },
+                audio: {
+                    disableWebAudio: true
                 }
-            },
-            scene: {
-                preload: preload,
-                create: create,
-                update: update
-            },
-            audio: {
-                disableWebAudio: true
-            }
-        };
+            };
 
-        var player;
-        var stars;
-        var crosses;
-        var bombs;
-        var beers;
-        var platforms;
-        var cursors;
-        var score = 0;
-        var antiScore = 0;
-        var gameOver = false;
-        var scoreText;
-        var antiScoreText;
-        var newsHeadlineText;
-        var flagText;
-        var winnerText;
-        var loserText;
-        var newsHeadlineArray = [
-            "EU says Brit yoghurt has to be called Fermented Milk Pudding",
-            "EU is forcing cows to wear nappies",
-            "EU wants to ban rocking horses",
-            "Corgis to be banned by EU",
-            "EU bans fresh pasta",
-            "EU wants Kent to be part of France",
-            "EU wants feeding swans to require a licence",
-            "Feeding swans and homeless people to require license",
-            "Bananas must not be excessively curved says EU",
-            "Traditional pizzas are to be outlawed by Brussels",
-            "EU will outlaw 2-for-1 bargains",
-            "Cod no longer to be called cod thanks to EU",
-            "EU says strawberries must be oval",
-            "Nickel in euro coins will make you sick",
-            "EU banning tourist photos of the London Eye",
-            "Cucumbers must be straight",
-            "EU says dead pets must be pressure-cooked before burying",
-            "Farmers forced to issue pigs with toys",
-            "Tractors banned from wet fields by EU ‘puddle police’",
-            "Hunters must carry a fridge and be accompanied by a vet",
-            "Circus performers must wear hard hats",
-            "EU responsible for your hay fever",
-            "Leek sizes to be standardized by EU",
-            "EU plans to ban zipper trousers",
-            "Queen to be forced to get her own tea",
-            "Shellfish must be given rest breaks whilst on journeys",
-            "I'm out of headlines, time to leave...",
-            "What are you still doing here?",
-            ".",
-            "..",
-            "...",
-            "....",
-            ".....",
-            "......",
-            ".......",
-            "........",
-            ".........",
-            "..........",
-            "...........",
-            "............",
-            ".............",
-            "..............",
-            "...............",
-            "................",
-            ".................",
-            ".................."
-        ];
+            var player;
+            var stars;
+            var crosses;
+            var bombs;
+            var beers;
+            var platforms;
+            var cursors;
+            var score = 0;
+            var antiScore = 0;
+            var gameOver = false;
+            var scoreText;
+            var antiScoreText;
+            var newsHeadlineText;
+            var flagText;
+            var winnerText;
+            var loserText;
+            var newsHeadlineArray = [
+                "EU says Brit yoghurt has to be called Fermented Milk Pudding",
+                "EU is forcing cows to wear nappies",
+                "EU wants to ban rocking horses",
+                "Corgis to be banned by EU",
+                "EU bans fresh pasta",
+                "EU wants Kent to be part of France",
+                "EU wants feeding swans to require a licence",
+                "Feeding swans and homeless people to require license",
+                "Bananas must not be excessively curved says EU",
+                "Traditional pizzas are to be outlawed by Brussels",
+                "EU will outlaw 2-for-1 bargains",
+                "Cod no longer to be called cod thanks to EU",
+                "EU says strawberries must be oval",
+                "Nickel in euro coins will make you sick",
+                "EU banning tourist photos of the London Eye",
+                "Cucumbers must be straight",
+                "EU says dead pets must be pressure-cooked before burying",
+                "Farmers forced to issue pigs with toys",
+                "Tractors banned from wet fields by EU ‘puddle police’",
+                "Hunters must carry a fridge and be accompanied by a vet",
+                "Circus performers must wear hard hats",
+                "EU responsible for your hay fever",
+                "Leek sizes to be standardized by EU",
+                "EU plans to ban zipper trousers",
+                "Queen to be forced to get her own tea",
+                "Shellfish must be given rest breaks whilst on journeys",
+                "I'm out of headlines, time to leave...",
+                "What are you still doing here?",
+                ".",
+                "..",
+                "...",
+                "....",
+                ".....",
+                "......",
+                ".......",
+                "........",
+                ".........",
+                "..........",
+                "...........",
+                "............",
+                ".............",
+                "..............",
+                "...............",
+                "................",
+                ".................",
+                ".................."
+            ];
 
-        var game = new Phaser.Game(config);
+            var game = new Phaser.Game(config);
 
-        function preload() {
-            this.load.audio('theme', "assets/brexitGamePlaceholderMusicTrim.ogg");
-            this.load.audio('brexit', "assets/jarvisRunningTheWorld.ogg");
-            this.load.image("londonSky", "assets/londonSky800x800.png");
-            this.load.image("ground", "assets/londonPlatform.png");
-            this.load.image("star", "assets/starGreen.png");
-            this.load.image("cross", "assets/starRed.png");
-            this.load.image("bus", "assets/singleBus.png");
-            this.load.image("bomb", "assets/bomb.png");
-            this.load.image("beer", "assets/beer.png");
-            this.load.spritesheet("mayBot", "assets/mayBot.png", {
-                frameWidth: 32,
-                frameHeight: 48
-            });
-        }
-
-        function create() {
-
-
-            // this.sound.audioPlayDelay = 0.1;
-            // this.sound.loopEndOffset = 0.05;
-            var music = this.sound.add('theme');
-
-            music.play();
-
-            //         music.play('loop', {
-            //     delay: 0
-            // });
-
-            // A simple background
-            // for our game
-
-            this.add.image(400, 400, "londonSky");
-            this.add.image(710, 690, "bus");
-
-            //  The platforms group contains the ground and the 2 ledges we can jump on
-            platforms = this.physics.add.staticGroup();
-
-            //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-            platforms
-                .create(400, 768, "ground")
-                .setScale(2)
-                .refreshBody();
-
-            //  Now let's create some ledges
-            platforms.create(600, 600, "ground");
-            platforms.create(50, 450, "ground");
-            platforms.create(750, 420, "ground");
-
-            // The player and its settings
-            player = this.physics.add.sprite(100, 550, "mayBot");
-
-            //  Player physics properties. Give the mayBot a slight bounce.
-            player.setBounce(0.2);
-            player.setCollideWorldBounds(true);
-
-            //  Our player animations, turning, walking left and walking right.
-            this.anims.create({
-                key: "left",
-                frames: this.anims.generateFrameNumbers("mayBot", {
-                    start: 1,
-                    end: 3
-                }),
-                frameRate: 10,
-                repeat: -1
-            });
-
-            this.anims.create({
-                key: "turn",
-                frames: this.anims.generateFrameNumbers("mayBot", {
-                    start: 4,
-                    end: 6
-                }),
-                frameRate: 5,
-                repeat: -1
-            });
-
-            this.anims.create({
-                key: "right",
-                frames: this.anims.generateFrameNumbers("mayBot", {
-                    start: 7,
-                    end: 10
-                }),
-                frameRate: 10,
-                repeat: -1
-            });
-
-            //  Input Events
-            cursors = this.input.keyboard.createCursorKeys();
-
-            //  Some stars to collect
-            stars = this.physics.add.group({
-                key: "star",
-                setXY: {
-                    x: 75,
-                    y: 0,
-                }
-            });
-
-            stars.children.iterate(function (child) {
-                child.setBounce(1);
-                child.setCollideWorldBounds(true);
-                child.setVelocity(Phaser.Math.Between(-200, 200), 20);
-                child.allowGravity = false;
-            });
-
-            // Adds crosses here
-            crosses = this.physics.add.group({
-                key: "cross",
-                setXY: {
-                    x: 725,
-                    y: 0
-                }
-            });
-
-            // Adds crosses bounce
-            crosses.children.iterate(function (child) {
-                //  Give each star a slightly different bounce
-                // child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-                child.setBounce(1);
-                child.setCollideWorldBounds(true);
-                child.setVelocity(Phaser.Math.Between(-200, 200), 20);
-                child.allowGravity = false;
-            });
-
-            bombs = this.physics.add.group();
-            beers = this.physics.add.group();
-
-            // Adds text & position for Score
-            scoreText = this.add.text(16, 760, "Public Anger: 0%", {
-                fontSize: "24px",
-                fill: "#fff"
-            });
-
-            // Adds text & position for antiScore
-            antiScoreText = this.add.text(400, 760, "Public Gullibility: 0%", {
-                fontSize: "24px",
-                fill: "#fff",
-            });
-
-            // Adds text & position for the newspaper headlines
-            newsHeadlineText = this.add.text(16, 16, newsHeadlineArray[0], {
-                fontFamily: "Times New Roman",
-                fontSize: "bold 28px",
-                fill: "#000"
-            });
-
-            //  Collide the player and the stars with the platforms
-            this.physics.add.collider(player, platforms);
-            this.physics.add.collider(stars, platforms);
-            // add crosses collision detection
-            this.physics.add.collider(crosses, platforms);
-            this.physics.add.collider(bombs, platforms);
-            this.physics.add.collider(beers, platforms);
-            //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-            this.physics.add.overlap(player, stars, collectStar, null, this);
-            //  Checks to see if the player overlaps with any of the crosses, if he does call the collectCross function
-            this.physics.add.overlap(player, crosses, collectCross, null, this);
-            this.physics.add.collider(player, bombs, hitBomb, null, this);
-            this.physics.add.overlap(player, beers, hitBeer, null, this);
-        }
-
-        function update() {
-            if (gameOver) {
-                return;
-            }
-
-            if (cursors.left.isDown) {
-                player.setVelocityX(-160);
-
-                player.anims.play("left", true);
-            } else if (cursors.right.isDown) {
-                player.setVelocityX(160);
-
-                player.anims.play("right", true);
-            } else {
-                player.setVelocityX(0);
-
-                player.anims.play("turn", true);
-            }
-
-            if (cursors.up.isDown && player.body.touching.down) {
-                player.setVelocityY(-330);
-            }
-        }
-
-        //********************COLLECT STARS**********************
-        function collectStar(player, star) {
-            star.disableBody(true, true);
-
-            //  Add and update the score
-            score += 10;
-            scoreText.setText("Public Anger: " + score + "%");
-
-            //  Add and update the newspaper Headline. score / 10 to increment by 1 in our newspaper headline array
-            newsHeadlineText.setText(newsHeadlineArray[score / 10 + antiScore / 10]);
-
-            if (stars.countActive(true) === 0) {
-                //  A new batch of stars to collect
-                stars.children.iterate(function (child) {
-                    var x =
-                        child.x < 400 ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-                    child.enableBody(true, child.x, 0, true, true);
-                    child.setVelocity(Phaser.Math.Between(-200, 200), 20);
-
+            function preload() {
+                this.load.audio("theme", "assets/brexitGamePlaceholderMusic.ogg");
+                this.load.audio("brexit", "assets/jarvisRunningTheWorld.ogg");
+                this.load.audio("drink", "assets/drink.ogg");
+                this.load.audio("gosh", "assets/gosh.ogg");
+                this.load.audio("ohGoodness", "assets/ohGoodness.ogg");
+                this.load.image("londonSky", "assets/londonSky800x800.png");
+                this.load.image("ground", "assets/londonPlatform.png");
+                this.load.image("star", "assets/starGreen.png");
+                this.load.image("cross", "assets/starRed.png");
+                this.load.image("bus", "assets/singleBus.png");
+                this.load.image("bomb", "assets/bomb.png");
+                this.load.image("beer", "assets/beer.png");
+                this.load.spritesheet("mayBot", "assets/mayBot.png", {
+                    frameWidth: 32,
+                    frameHeight: 48
                 });
-                //Bombs created upon star collect
-                var x = player.x < 400 ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-                var bomb = bombs.create(x, 16, "bomb");
-                bomb.setBounce(1);
-                bomb.setCollideWorldBounds(true);
-                bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-                bomb.allowGravity = false;
             }
 
-            // collect 100 points and the game ends
-            if (score === 100) {
+            function create() {
+                var music = this.sound.add("theme", {
+                    loop: true
+                });
+                music.play();
+
+                // A simple background for our game
+                this.add.image(400, 400, "londonSky");
+                this.add.image(710, 690, "bus");
+
+                //  The platforms group contains the ground and the 2 ledges we can jump on
+                platforms = this.physics.add.staticGroup();
+
+                //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
+                platforms
+                    .create(400, 768, "ground")
+                    .setScale(2)
+                    .refreshBody();
+
+                //  Now let's create some ledges
+                platforms.create(600, 600, "ground");
+                platforms.create(50, 450, "ground");
+                platforms.create(750, 420, "ground");
+
+                // The player and its settings
+                player = this.physics.add.sprite(100, 550, "mayBot");
+
+                //  Player physics properties. Give the mayBot a slight bounce.
+                player.setBounce(0.2);
+                player.setCollideWorldBounds(true);
+
+                //  Our player animations, turning, walking left and walking right.
+                this.anims.create({
+                    key: "left",
+                    frames: this.anims.generateFrameNumbers("mayBot", {
+                        start: 1,
+                        end: 3
+                    }),
+                    frameRate: 10,
+                    repeat: -1
+                });
+
+                this.anims.create({
+                    key: "turn",
+                    frames: this.anims.generateFrameNumbers("mayBot", {
+                        start: 4,
+                        end: 6
+                    }),
+                    frameRate: 5,
+                    repeat: -1
+                });
+
+                this.anims.create({
+                    key: "right",
+                    frames: this.anims.generateFrameNumbers("mayBot", {
+                        start: 7,
+                        end: 10
+                    }),
+                    frameRate: 10,
+                    repeat: -1
+                });
+
+                //  Input Events
+                cursors = this.input.keyboard.createCursorKeys();
+
+                //  Some stars to collect
+                stars = this.physics.add.group({
+                    key: "star",
+                    setXY: {
+                        x: 75,
+                        y: 0
+                    }
+                });
+
+                stars.children.iterate(function(child) {
+                    // child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+                    child.setBounce(1);
+                    child.setCollideWorldBounds(true);
+                    child.setVelocity(Phaser.Math.Between(-200, 200), 20);
+                    child.allowGravity = false;
+                });
+
+                // Adds crosses here
+                crosses = this.physics.add.group({
+                    key: "cross",
+                    setXY: {
+                        x: 725,
+                        y: 0
+                    }
+                });
+
+                // Adds crosses bounce
+                crosses.children.iterate(function(child) {
+                    //  Give each star a slightly different bounce
+                    // child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+                    child.setBounce(1);
+                    child.setCollideWorldBounds(true);
+                    child.setVelocity(Phaser.Math.Between(-200, 200), 20);
+                    child.allowGravity = false;
+                });
+
+                bombs = this.physics.add.group();
+                beers = this.physics.add.group();
+
+                // Adds text & position for Score
+                scoreText = this.add.text(16, 760, "Public Anger: 0%", {
+                    fontSize: "24px",
+                    fill: "#fff"
+                });
+
+                // Adds text & position for antiScore
+                antiScoreText = this.add.text(400, 760, "Public Gullibility: 0%", {
+                    fontSize: "24px",
+                    fill: "#fff"
+                });
+
+                // Adds text & position for the newspaper headlines
+                newsHeadlineText = this.add.text(16, 16, newsHeadlineArray[0], {
+                    fontFamily: "Times New Roman",
+                    fontSize: "bold 28px",
+                    fill: "#000"
+                });
+
+                //  Collide the player and the stars with the platforms
+                this.physics.add.collider(player, platforms);
+                this.physics.add.collider(stars, platforms);
+                // add crosses collision detection
+                this.physics.add.collider(crosses, platforms);
+                this.physics.add.collider(bombs, platforms);
+                this.physics.add.collider(beers, platforms);
+                //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
+                this.physics.add.overlap(player, stars, collectStar, null, this);
+                //  Checks to see if the player overlaps with any of the crosses, if he does call the collectCross function
+                this.physics.add.overlap(player, crosses, collectCross, null, this);
+                this.physics.add.collider(player, bombs, hitBomb, null, this);
+                this.physics.add.overlap(player, beers, hitBeer, null, this);
+            }
+
+            function update() {
+                if (gameOver) {
+                    return;
+                }
+
+                if (cursors.left.isDown) {
+                    player.setVelocityX(-160);
+
+                    player.anims.play("left", true);
+                } else if (cursors.right.isDown) {
+                    player.setVelocityX(160);
+
+                    player.anims.play("right", true);
+                } else {
+                    player.setVelocityX(0);
+
+                    player.anims.play("turn", true);
+                }
+
+                if (cursors.up.isDown && player.body.touching.down) {
+                    player.setVelocityY(-330);
+                }
+            }
+
+            //********************COLLECT STARS**********************
+            function collectStar(player, star) {
+                star.disableBody(true, true);
+
+                //  Add and update the score
+                score += 10;
+                scoreText.setText("Public Anger: " + score + "%");
+                // Play a sound
+                var music = this.sound.add("ohGoodness");
+                music.play();
+
+                //  Add and update the newspaper Headline. score / 10 to increment by 1 in our newspaper headline array
+                newsHeadlineText.setText(newsHeadlineArray[score / 10 + antiScore / 10]);
+
+                if (stars.countActive(true) === 0) {
+                    //  A new batch of stars to collect
+                    stars.children.iterate(function(child) {
+                        var x =
+                            child.x < 400 ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+                        child.enableBody(true, child.x, 0, true, true);
+                        child.setVelocity(Phaser.Math.Between(-200, 200), 20);
+                    });
+                    //Bombs created upon star collect
+                    var x = player.x < 400 ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+                    var bomb = bombs.create(x, 16, "bomb");
+                    bomb.setBounce(1);
+                    bomb.setCollideWorldBounds(true);
+                    bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+                    bomb.allowGravity = false;
+                }
+
+                // collect 100 points and the game ends
+                if (score === 100) {
+                    this.physics.pause();
+                    player.setTint(0x0000ff); // Turn player blue on game end
+                    player.anims.play("turn");
+                    // Play a sound
+                    var music = this.sound.add("brexit");
+                    music.play();
+                    gameOver = true;
+                    winnerText = this.add.text(150, 400, "True Blue! You brought about Brexit!", {
+                        fontSize: "24px",
+                        fill: "#fff"
+                    });
+                }
+            }
+
+            //*******************COLLECT CROSSES**************************
+            function collectCross(player, cross) {
+                cross.disableBody(true, true);
+
+                //  Add and update the antiScore
+                antiScore += 10;
+                antiScoreText.setText("Public Gullibility: " + antiScore + "%");
+                // Play a sound
+                var music = this.sound.add("gosh");
+                music.play();
+
+                //  Add and update the newspaper Headline. score / 10 to increment by 1 in our newspaper headline array
+                newsHeadlineText.setText(newsHeadlineArray[antiScore / 10 + score / 10]);
+
+                if (crosses.countActive(true) === 0) {
+                    //  A new batch of crosses to collect
+                    crosses.children.iterate(function(child) {
+                        child.enableBody(true, child.x, 0, true, true);
+                        child.setVelocity(Phaser.Math.Between(-200, 200), 20);
+                    });
+                    //Creates beers objects away from the player at random velocity
+                    var x = player.x < 400 ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+                    var beer = beers.create(x, 16, "beer");
+                    beer.setBounce(1);
+                    beer.setCollideWorldBounds(true);
+                    beer.setVelocity(Phaser.Math.Between(-200, 200), 20);
+                    beer.allowGravity = false;
+                }
+
+                // collect 100 points and the game ends
+                if (antiScore === 100) {
+                    this.physics.pause();
+                    player.setTint(0xff0000); // Turn player red on game end
+                    player.anims.play("turn");
+                    // Play a sound
+                    var music = this.sound.add("brexit");
+                    music.play();
+                    gameOver = true;
+                    loserText = this.add.text(
+                        200,
+                        300,
+                        "It is the will of the people! \n          GAME OVER",
+                        {
+                            fontSize: "24px",
+                            fill: "#fff"
+                        }
+                    );
+                }
+            }
+
+            // Flags to kill you
+            function hitBomb(player, bomb) {
                 this.physics.pause();
-                player.setTint(0x0000ff); // Turn player blue on game end
+                player.setTint(0xff0000);
                 player.anims.play("turn");
+                // Play a sound
+                var music = this.sound.add("brexit");
+                music.play();
                 gameOver = true;
-                winnerText = this.add.text(150, 400, "True Blue! You brought about Brexit!", {
+                flagText = this.add.text(270, 300, "Avoid Nationalism.", {
                     fontSize: "24px",
                     fill: "#fff"
                 });
             }
-        }
 
-        //*******************COLLECT CROSSES**************************
-        function collectCross(player, cross) {
-            cross.disableBody(true, true);
-
-            //  Add and update the antiScore
-            antiScore += 10;
-            antiScoreText.setText("Public Gullibility: " + antiScore + "%");
-
-            //  Add and update the newspaper Headline. score / 10 to increment by 1 in our newspaper headline array
-            newsHeadlineText.setText(newsHeadlineArray[antiScore / 10 + score / 10]);
-
-            if (crosses.countActive(true) === 0) {
-                //  A new batch of crosses to collect
-                crosses.children.iterate(function (child) {
-                    child.enableBody(true, child.x, 0, true, true);
-                    child.setVelocity(Phaser.Math.Between(-200, 200), 20);
-                });
-                //Creates beers objects away from the player at random velocity
-                var x = player.x < 400 ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-                var beer = beers.create(x, 16, "beer");
-                beer.setBounce(1);
-                beer.setCollideWorldBounds(true);
-                beer.setVelocity(Phaser.Math.Between(-200, 200), 20);
-                beer.allowGravity = false;
+            // Beer to decrease your score
+            function hitBeer(player, beer) {
+                beer.disableBody(true, true);
+                //Play a sound
+                var music = this.sound.add("drink");
+                music.play();
+                score -= 10;
+                scoreText.setText("Public Anger: " + score + "%");
             }
-
-            // collect 100 points and the game ends
-            if (antiScore === 100) {
-                this.physics.pause();
-                player.setTint(0xff0000); // Turn player red on game end
-                player.anims.play("turn");
-                gameOver = true;
-                loserText = this.add.text(
-                    200,
-                    300,
-                    "It is the will of the people! \n          GAME OVER", {
-                        fontSize: "24px",
-                        fill: "#fff"
-                    }
-                );
-            }
-        }
-
-        // Flags to kill you
-        function hitBomb(player, bomb) {
-            this.physics.pause();
-            player.setTint(0xff0000);
-            player.anims.play("turn");
-
-            var music = this.sound.add('brexit');
-
-            music.play();
-            gameOver = true;
-            flagText = this.add.text(270, 300, "Avoid Nationalism.", {
-                fontSize: "24px",
-                fill: "#fff"
-            });
-        }
-
-        // Beer to decrease your score
-        function hitBeer(player, beer) {
-            beer.disableBody(true, true);
-            score -= 10;
-            scoreText.setText("Public Anger: " + score + "%");
-        }
-    </script>
-
-</body>
-
+        </script>
+    </body>
 </html>
