@@ -56,7 +56,7 @@
             };
 
             var player;
-            var stars;
+            var ticks;
             var crosses;
             var bombs;
             var beers;
@@ -73,31 +73,31 @@
             var loserText;
             var newsHeadlineArray = [
                 "EU says Brit yoghurt has to be called Fermented Milk Pudding",
+                "EU says Feeding swans and homeless people to require license",
+                "EU says dead pets must be pressure-cooked before burying",
                 "EU is forcing cows to wear nappies",
+                "Bananas must not be excessively curved says EU",
+                "Farmers forced to issue pigs with toys",
+                "Hunters must carry a fridge and be accompanied by a vet",
+                "EU plans to ban zipper trousers",
+                "EU says Cucumbers must be straight",
+                "EU says strawberries must be oval",
+                "Shellfish must be given rest breaks whilst on journeys",
+                "EU responsible for your hay fever",
                 "EU wants to ban rocking horses",
                 "Corgis to be banned by EU",
                 "EU bans fresh pasta",
+                "Tractors banned from wet fields by EU ‘puddle police’",
                 "EU wants Kent to be part of France",
                 "EU wants feeding swans to require a licence",
-                "Feeding swans and homeless people to require license",
-                "Bananas must not be excessively curved says EU",
                 "Traditional pizzas are to be outlawed by Brussels",
                 "EU will outlaw 2-for-1 bargains",
                 "Cod no longer to be called cod thanks to EU",
-                "EU says strawberries must be oval",
                 "Nickel in euro coins will make you sick",
                 "EU banning tourist photos of the London Eye",
-                "Cucumbers must be straight",
-                "EU says dead pets must be pressure-cooked before burying",
-                "Farmers forced to issue pigs with toys",
-                "Tractors banned from wet fields by EU ‘puddle police’",
-                "Hunters must carry a fridge and be accompanied by a vet",
                 "Circus performers must wear hard hats",
-                "EU responsible for your hay fever",
                 "Leek sizes to be standardized by EU",
-                "EU plans to ban zipper trousers",
                 "Queen to be forced to get her own tea",
-                "Shellfish must be given rest breaks whilst on journeys",
                 "I'm out of headlines, time to leave...",
                 "What are you still doing here?",
                 ".",
@@ -130,8 +130,8 @@
                 this.load.audio("ohGoodness", "assets/ohGoodness.ogg");
                 this.load.image("londonSky", "assets/londonSky800x800.png");
                 this.load.image("ground", "assets/londonPlatform.png");
-                this.load.image("star", "assets/starGreen.png");
-                this.load.image("cross", "assets/starRed.png");
+                this.load.image("tick", "assets/greenTick.png");
+                this.load.image("cross", "assets/redCross.png");
                 this.load.image("bus", "assets/singleBus.png");
                 this.load.image("bomb", "assets/bomb.png");
                 this.load.image("beer", "assets/beer.png");
@@ -206,16 +206,16 @@
                 //  Input Events
                 cursors = this.input.keyboard.createCursorKeys();
 
-                //  Some stars to collect
-                stars = this.physics.add.group({
-                    key: "star",
+                //  Some ticks to collect
+                ticks = this.physics.add.group({
+                    key: "tick",
                     setXY: {
                         x: 75,
                         y: 0
                     }
                 });
 
-                stars.children.iterate(function(child) {
+                ticks.children.iterate(function(child) {
                     // child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
                     child.setBounce(1);
                     child.setCollideWorldBounds(true);
@@ -234,7 +234,7 @@
 
                 // Adds crosses bounce
                 crosses.children.iterate(function(child) {
-                    //  Give each star a slightly different bounce
+                    //  Give each cross a slightly different bounce
                     // child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
                     child.setBounce(1);
                     child.setCollideWorldBounds(true);
@@ -264,15 +264,15 @@
                     fill: "#000"
                 });
 
-                //  Collide the player and the stars with the platforms
+                //  Collide the player and the green ticks with the platforms
                 this.physics.add.collider(player, platforms);
-                this.physics.add.collider(stars, platforms);
+                this.physics.add.collider(ticks, platforms);
                 // add crosses collision detection
                 this.physics.add.collider(crosses, platforms);
                 this.physics.add.collider(bombs, platforms);
                 this.physics.add.collider(beers, platforms);
-                //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-                this.physics.add.overlap(player, stars, collectStar, null, this);
+                //  Checks to see if the player overlaps with any of the ticks, if he does call the collecttick function
+                this.physics.add.overlap(player, ticks, collectTick, null, this);
                 //  Checks to see if the player overlaps with any of the crosses, if he does call the collectCross function
                 this.physics.add.overlap(player, crosses, collectCross, null, this);
                 this.physics.add.collider(player, bombs, hitBomb, null, this);
@@ -303,9 +303,9 @@
                 }
             }
 
-            //********************COLLECT STARS**********************
-            function collectStar(player, star) {
-                star.disableBody(true, true);
+            //********************COLLECT GREEN TICK **********************
+            function collectTick(player, tick) {
+                tick.disableBody(true, true);
 
                 //  Add and update the score
                 score += 10;
@@ -317,15 +317,15 @@
                 //  Add and update the newspaper Headline. score / 10 to increment by 1 in our newspaper headline array
                 newsHeadlineText.setText(newsHeadlineArray[score / 10 + antiScore / 10]);
 
-                if (stars.countActive(true) === 0) {
-                    //  A new batch of stars to collect
-                    stars.children.iterate(function(child) {
+                if (ticks.countActive(true) === 0) {
+                    //  A new batch of ticks to collect
+                    ticks.children.iterate(function(child) {
                         var x =
                             child.x < 400 ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
                         child.enableBody(true, child.x, 0, true, true);
                         child.setVelocity(Phaser.Math.Between(-200, 200), 20);
                     });
-                    //Bombs created upon star collect
+                    //Bombs created upon tick collect
                     var x = player.x < 400 ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
                     var bomb = bombs.create(x, 16, "bomb");
                     bomb.setBounce(1);
